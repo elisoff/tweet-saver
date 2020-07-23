@@ -1,23 +1,28 @@
 import React, { useState } from 'react';
 
 export default function SearchBar({ onSearch }) {
-    const [searchTerm, setSearchTerm] = useState('');
+    const [searchTerm, setSearchTerm] = useState({ oldSearch: '', newSearch: '' });
 
     const handleOnChange = (event) => {
         const { value } = event.target;
 
-        if (value) {
-            setSearchTerm(value);
-        }
+        setSearchTerm({ ...searchTerm, newSearch: value });
     };
 
-    const handleSearch = () => onSearch(searchTerm);
+    const handleSearch = () => {
+        const { oldSearch, newSearch } = searchTerm;
+
+        if (newSearch && oldSearch !== newSearch) {
+            setSearchTerm({ ...searchTerm, oldSearch: newSearch });
+            onSearch(newSearch);
+        }
+    };
 
     const handleOnKeyDown = (event) => {
         const ENTER_KEY_CODE = 13;
 
         if (event.keyCode === ENTER_KEY_CODE) {
-            onSearch(searchTerm);
+            handleSearch();
         }
     };
     return (
