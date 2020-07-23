@@ -1,0 +1,7 @@
+.saved-tweets-container {
+    height: 100%;
+
+    .saved-tweets-list {
+        height: calc(100% - 64px);
+    }
+}
